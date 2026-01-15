@@ -1,0 +1,7 @@
+# Swap and backup files
+*.swp
+*.swo
+*.bak
+
+# Lazy.nvim or packer.nvim plugin directories
+lazy-lock.json
