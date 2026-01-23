@@ -20,7 +20,7 @@ return {
             },
             indent = {
                 enable = true,
-                disable = { "html", "vue", "javascript" },
+                disable = { "html", "vue", "javascript", "typescript", "jsx", "tsx", "py" },
             },
 
             highlight = {

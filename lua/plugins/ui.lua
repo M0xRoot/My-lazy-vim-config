@@ -1,7 +1,7 @@
 return {
     {
         "nvimdev/dashboard-nvim",
-        enabled = false,
+        enabled = true,
     },
     {
         "nvim-lualine/lualine.nvim",
@@ -207,10 +207,9 @@ return {
                 },
             })
 
-            if vim.fn.argc(-1) == 0 then
-                vim.cmd("NvimTreeFocus")
+            if vim.fn.argc(-1) > 0 then
+                require("nvim-tree.api").tree.open()
             end
         end,
     },
 }
-

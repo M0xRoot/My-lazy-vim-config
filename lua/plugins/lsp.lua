@@ -3,12 +3,17 @@ return {
         "mason-org/mason.nvim", -- note: corrected the repo name (mason-org → williamboman)
         opts = function(_, opts)
             vim.list_extend(opts.ensure_installed, {
+                "black",
+                "pyright",
+                "ruff",
+                "mypy",
+                "debugpy",
                 "emmet-language-server",
                 "luacheck",
                 "shellcheck",
                 "shfmt",
                 "tailwindcss-language-server",
-                "typescript-language-server", -- ← added (required by modern vue_ls)
+                "typescript-language-server",
                 "vue-language-server",
                 "css-lsp",
             })
@@ -19,6 +24,7 @@ return {
         "mason-org/mason-lspconfig.nvim",
         opts = {
             ensure_installed = {
+                "pyright",
                 "vue_ls",
                 "ts_ls",
                 "tailwindcss",
@@ -35,32 +41,59 @@ return {
             inlay_hints = { enabled = true },
 
             servers = {
-                ruff = {
-                    cmd_env = { RUFF_TRACE = "messages" },
-                    init_options = {
-                        settings = {
-                            logLevel = "error",
-                        },
+                tsserver = {
+                    on_attach = on_attach,
+                    filetypes = {
+                        "typescriptreact",
+                        "typescript",
+                        "javascriptreact",
+                        "javascript",
                     },
-                    keys = {
-                        {
-                            "<leader>co",
-                            LazyVim.lsp.action["source.organizeImports"],
-                            desc = "Organize Imports",
-                        },
+                    cmd = {
+                        "typescript-language-server",
+                        "--stdio",
                     },
                 },
-                ruff_lsp = {
-                    keys = {
-                        {
-                            "<leader>co",
-                            LazyVim.lsp.action["source.organizeImports"],
-                            desc = "Organize Imports",
+                pyright = {
+                    filetypes = { "python" },
+
+                    capabilities = (function()
+                        local capabilities = vim.lsp.protocol.make_client_capabilities()
+                        capabilities.textDocument.publishDiagnostics = {
+                            tagSupport = {
+                                valueSet = { 2 },
+                            },
+                        }
+                        return capabilities
+                    end)(),
+
+                    settings = {
+                        python = {
+                            analysis = {
+                                useLibraryCodeForTypes = true,
+
+                                diagnosticSeverityOverrides = {
+                                    reportUnusedVariable = "warning",
+                                },
+
+                                typeCheckingMode = "off",
+                                diagnosticMode = "off",
+                            },
                         },
                     },
                 },
                 emmet_language_server = {
-                    filetypes = { "vue", "css", "html", "scss", "javascript" },
+                    filetypes = {
+                        "vue",
+                        "css",
+                        "html",
+                        "scss",
+                        "javascript",
+                        "tsx",
+                        "jsx",
+                        "javascriptreact",
+                        "typescriptreact",
+                    },
                     init_options = {
                         html = {
                             options = {
@@ -122,6 +155,8 @@ return {
                         "typescript",
                         "typescriptreact",
                         "vue",
+                        "tsx",
+                        "jsx",
                     },
                     init_options = {
                         plugins = {
@@ -210,5 +245,37 @@ return {
                 tailwind = true, -- corrected key name (tailwindcss → tailwind)
             },
         },
+    },
+    {
+        "rcarriga/nvim-dap-ui",
+        dependencies = {
+            "mfussenegger/nvim-dap",
+        },
+        config = function()
+            local dap = require("dap")
+            local dapui = require("dapui")
+            dapui.setup()
+            dap.listeners.after.event_initialized["dapui_config"] = function()
+                dapui.open()
+            end
+            dap.listeners.after.event_terminated["dapui_config"] = function()
+                dapui.close()
+            end
+            dap.listeners.after.event_exited["dapui_config"] = function()
+                dapui.close()
+            end
+        end,
+    },
+    {
+        "mfussenegger/nvim-dap-python",
+        filetypes = { "python" },
+        dependencies = {
+            "mfussenegger/nvim-dap",
+            "rcarriga/nvim-dap-ui",
+        },
+        config = function()
+            local path = "~/.local/share/nvim-lazy/mason/packages/debugpy/venv/bin/python"
+            require("dap-python").setup(path)
+        end,
     },
 }
