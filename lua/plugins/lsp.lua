@@ -182,6 +182,8 @@ return {
                         "typescript",
                         "typescriptreact",
                         "vue",
+                        "jsx",
+                        "tsx",
                     },
                     settings = {
                         tailwindCSS = {

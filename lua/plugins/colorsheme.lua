@@ -33,11 +33,6 @@ return {
                 hi LazyNormal guibg=NONE ctermbg=NONE
                 hi LazyButton guibg=NONE ctermbg=NONE
 
-                " Cursorline always off
-                hi CursorLine guibg=NONE ctermbg=NONE
-                hi CursorLineNr guifg=#ff9e64
-                hi MatchParen guibg=NONE ctermbg=NONE gui=bold
-
                 " Line numbers
                 hi LineNr guifg=#5a5a5a
                 hi CursorLineNr guifg=#ff9e64
