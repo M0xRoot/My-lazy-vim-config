@@ -1,7 +1,7 @@
 return {
     {
         "nvimdev/dashboard-nvim",
-        enabled = true,
+        enabled = false,
     },
     {
         "nvim-lualine/lualine.nvim",

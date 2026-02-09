@@ -10,3 +10,5 @@ vim.keymap.set("n", "<leader>lm", ":Laravel make:model ", { desc = "Make Model" 
 vim.keymap.set("n", "<leader>lmf", ":Laravel make:factory ", { desc = "Make Factory" })
 vim.keymap.set("n", "<leader>lmm", ":Laravel make:migration ", { desc = "Make Migration" })
 vim.keymap.set("n", "<leader>lmt", ":Laravel make:test ", { desc = "Make Test" })
+
+vim.keymap.set("n", "U", "<cmd>redo<CR>", { desc = "Redo" })

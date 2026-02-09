@@ -3,10 +3,11 @@ return {
         "mason-org/mason.nvim", -- note: corrected the repo name (mason-org → williamboman)
         opts = function(_, opts)
             vim.list_extend(opts.ensure_installed, {
-                "black",
+                "eslint-lsp",
+                "clangd",
+                "codelldb",
+                "clang-format",
                 "pyright",
-                "ruff",
-                "mypy",
                 "debugpy",
                 "emmet-language-server",
                 "luacheck",
@@ -24,6 +25,8 @@ return {
         "mason-org/mason-lspconfig.nvim",
         opts = {
             ensure_installed = {
+                "eslint",
+                "clangd",
                 "pyright",
                 "vue_ls",
                 "ts_ls",
@@ -41,6 +44,41 @@ return {
             inlay_hints = { enabled = true },
 
             servers = {
+                eslint = {
+                    filetypes = {
+                        "javascript",
+                        "javascriptreact",
+                        "typescript",
+                        "typescriptreact",
+                        "vue",
+                        "jsx",
+                        "tsx",
+                    },
+                    settings = {
+                        workingDirectory = { mode = "auto" },
+                    },
+                },
+                clangd = {
+                    -- cmd = { "clangd", "--background-index", "--clang-tidy" },  -- add flags as needed
+                    filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
+                    cmd = {
+                        "clangd",
+                        "--background-index",
+                        "--clang-tidy",
+                        "--header-insertion=iwyu",
+                        "--completion-style=detailed",
+                        "--function-arg-placeholders",
+                        "--fallback-style=llvm",
+                    },
+                    init_options = {
+                        usePlaceholders = true,
+                        completeUnimported = true,
+                        clangdFileStatus = true,
+                    },
+                    capabilities = {
+                        offsetEncoding = { "utf-16" }, -- important for clangd
+                    },
+                },
                 tsserver = {
                     on_attach = on_attach,
                     filetypes = {
@@ -157,6 +195,9 @@ return {
                         "vue",
                         "tsx",
                         "jsx",
+                    },
+                    handlers = {
+                        ["textDocument/publishDiagnostics"] = function() end,
                     },
                     init_options = {
                         plugins = {
@@ -279,5 +320,20 @@ return {
             local path = "~/.local/share/nvim-lazy/mason/packages/debugpy/venv/bin/python"
             require("dap-python").setup(path)
         end,
+    },
+    {
+        "stevearc/conform.nvim",
+        opts = {
+            formatters_by_ft = {
+                c = { "clang_format" },
+                cpp = { "clang_format" },
+            },
+            formatters = {
+                clang_format = {
+                    command = "clang-format",
+                    args = { "--style=file" }, -- or "-style=LLVM", or use .clang-format file in project
+                },
+            },
+        },
     },
 }
