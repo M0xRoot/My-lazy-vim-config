@@ -3,6 +3,7 @@ return {
         "mason-org/mason.nvim", -- note: corrected the repo name (mason-org → williamboman)
         opts = function(_, opts)
             vim.list_extend(opts.ensure_installed, {
+                "marksman",
                 "eslint-lsp",
                 "clangd",
                 "codelldb",
@@ -17,6 +18,7 @@ return {
                 "typescript-language-server",
                 "vue-language-server",
                 "css-lsp",
+                "intelephense",
             })
         end,
     },
@@ -25,6 +27,7 @@ return {
         "mason-org/mason-lspconfig.nvim",
         opts = {
             ensure_installed = {
+                "marksman",
                 "eslint",
                 "clangd",
                 "pyright",
@@ -42,7 +45,6 @@ return {
         "neovim/nvim-lspconfig",
         opts = {
             inlay_hints = { enabled = true },
-
             servers = {
                 eslint = {
                     filetypes = {
@@ -56,6 +58,10 @@ return {
                     },
                     settings = {
                         workingDirectory = { mode = "auto" },
+                        rulesCustomizations = {
+                            ["no-unused-vars"] = "off",
+                            ["@typescript-eslint/no-unused-vars"] = "off",
+                        },
                     },
                 },
                 clangd = {
@@ -149,18 +155,23 @@ return {
                         showExpandedAbbreviation = "always",
                     },
                 },
-
+                -- in your lspconfig opts
                 intelephense = {
                     filetypes = { "php" },
-                    root_dir = require("lspconfig.util").root_pattern("composer.json", ".git"),
+                    single_file_support = true, -- important if you're editing single files
                     settings = {
                         intelephense = {
                             files = {
-                                maxSize = 5000000, -- 5MB
+                                maxSize = 5000000, -- increase if you have large files
                             },
+
                             environment = {
-                                includePaths = {}, -- optional: add PHP include paths
+                                includePaths = {
+                                    "vendor",
+                                    ".",
+                                },
                             },
+
                             diagnostics = {
                                 enable = true,
                             },
@@ -169,13 +180,9 @@ return {
                                 includeUseStatements = true,
                                 insertUseDeclaration = true,
                             },
-                            format = {
-                                enable = true,
-                            },
                         },
                     },
                 },
-
                 vue_ls = {
                     filetypes = { "vue" },
                     root_dir = require("lspconfig.util").root_pattern(
@@ -308,6 +315,10 @@ return {
                 dapui.close()
             end
         end,
+    },
+    {
+        "neoclide/coc.nvim",
+        enabled = false,
     },
     {
         "mfussenegger/nvim-dap-python",

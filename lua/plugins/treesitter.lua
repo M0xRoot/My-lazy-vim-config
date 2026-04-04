@@ -14,19 +14,30 @@ return {
                 "vim",
                 "lua",
                 "vue",
-                "copilot",
                 "ninja",
                 "rst",
+                "php",
+                "tsx",
+                "jsx",
+                "blade",
+                "html",
             },
             indent = {
                 enable = true,
-                disable = { "html" },
             },
 
             highlight = {
                 enable = true,
-                -- optional: helps with some edge cases
-                additional_vim_regex_highlighting = { "vue" },
+                additional_vim_regex_highlighting = {
+                    "vue",
+                    "html",
+                    "jsx",
+                    "tsx",
+                    "css",
+                    "scss",
+                    "javascript",
+                    "typescript",
+                },
             },
             query_linter = {
                 enable = true,
