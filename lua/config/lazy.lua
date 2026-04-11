@@ -35,9 +35,6 @@ require("lazy").setup({
                 colorscheme = "sonokai",
             },
         },
-
-        { import = "lazyvim.plugins.extras.lsp" },
-
         -- extras
         { import = "lazyvim.plugins.extras.linting.eslint" },
         { import = "lazyvim.plugins.extras.formatting.prettier" },

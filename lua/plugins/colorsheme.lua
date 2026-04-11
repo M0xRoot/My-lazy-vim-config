@@ -1,8 +1,8 @@
 return {
     {
         "craftzdog/solarized-osaka.nvim",
-        lazy = false,
-        priority = 1000,
+        lazy = true,
+        -- priority = 1000,
         opts = {
             -- Basic options — override defaults here
             transparent = true, -- makes background transparent
@@ -100,7 +100,7 @@ return {
     {
         "folke/tokyonight.nvim",
         -- priority = 1000,
-        lazy = false,
+        lazy = true,
         config = function()
             require("tokyonight").setup({
                 style = "storm", -- closest to Sonokai Atlantis (dark + contrast)
@@ -117,6 +117,70 @@ return {
                 on_highlights = function(_) end,
             })
             vim.cmd.colorscheme("tokyonight")
+        end,
+    },
+    {
+        "rebelot/kanagawa.nvim",
+        lazy = false,
+        priority = 1000,
+        config = function()
+            require("kanagawa").setup({
+                compile = false,
+                undercurl = true,
+                commentStyle = { italic = true },
+                functionStyle = {},
+                keywordStyle = { italic = true },
+                statementStyle = {},
+                typeStyle = {},
+                transparent = false, -- keep false, we override manually
+                dimInactive = false,
+                terminalColors = true,
+
+                colors = {
+                    theme = {
+                        all = {
+                            ui = {
+                                bg_gutter = "none",
+                            },
+                        },
+                    },
+                },
+                overrides = function(colors)
+                    return {
+                        -- base
+                        Normal = { bg = "none" },
+                        NormalFloat = { bg = "none" },
+                        FloatBorder = { bg = "none" },
+                        SignColumn = { bg = "none" },
+                        EndOfBuffer = { bg = "none" },
+
+                        FloatTitle = { bg = "none" },
+                        WinBar = { bg = "none" },
+                        WinBarNC = { bg = "none" },
+                        Title = { bg = "none" },
+
+                        NoiceCmdlinePopup = { bg = "none" },
+                        NoiceCmdlinePopupBorder = { bg = "none" },
+                        NoiceCmdlinePopupTitle = { bg = "none" },
+
+                        NoicePopup = { bg = "none" },
+                        NoicePopupBorder = { bg = "none" },
+                        NoicePopupmenu = { bg = "none" },
+
+                        Pmenu = { bg = "none" },
+                        PmenuSel = { bg = "none" },
+                        PmenuSbar = { bg = "none" },
+                        PmenuThumb = { bg = "none" },
+
+                        TelescopeTitle = { bg = "none" },
+                        TelescopePromptTitle = { bg = "none" },
+                        TelescopeResultsTitle = { bg = "none" },
+                        TelescopePreviewTitle = { bg = "none" },
+                    }
+                end,
+            })
+
+            vim.cmd("colorscheme kanagawa")
         end,
     },
 }
