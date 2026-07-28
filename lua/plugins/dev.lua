@@ -1,7 +1,7 @@
 return {
     {
         "barrettruth/live-server.nvim",
-        build = "npm install -g live-server", -- optional: auto install
+        build = "sudo npm install -g live-server", -- optional: auto install
         cmd = { "LiveServerStart", "LiveServerStop" },
         config = true, -- or opts = {}
     },

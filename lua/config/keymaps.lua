@@ -35,11 +35,11 @@ vim.keymap.set("n", "<C-a>", "ggVG", { desc = "Select All" })
 vim.keymap.set("n", "U", "<cmd>redo<CR>", { desc = "Redo" })
 
 vim.api.nvim_create_user_command("CopilotToggle", function()
-    vim.g.copilot_enabled = not vim.g.copilot_enabled
+	vim.g.copilot_enabled = not vim.g.copilot_enabled
 
-    if vim.g.copilot_enabled then
-        print("Copilot Suggestions: ON")
-    else
-        print("Copilot Suggestions: OFF")
-    end
+	if vim.g.copilot_enabled then
+		print("Copilot Suggestions: ON")
+	else
+		print("Copilot Suggestions: OFF")
+	end
 end, {})
